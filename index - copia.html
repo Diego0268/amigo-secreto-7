@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigo Secreto</title>
+    <style>
+        /* Fondo azul cielo y centrado */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #87CEEB; /* Azul cielo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenedor principal */
+        .main-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: #001f3f;
+        }
+
+        .input-wrapper {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button-add {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .button-add:hover {
+            background-color: #218838;
+        }
+
+        .button-draw {
+            background-color: #ff9800;
+            color: white;
+        }
+
+        .button-draw:hover {
+            background-color: #e68900;
+        }
+
+        .button-reset {
+            background-color: #001f3f; /* Azul marino */
+            color: white;
+        }
+
+        .button-reset:hover {
+            background-color: #003366;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        li {
+            background: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <h1>🎁 Amigo Secreto</h1>
+        <div class="input-wrapper">
+            <input type="text" id="amigo" placeholder="Escribe un nombre">
+            <button class="button-add" onclick="agregarAmigo()">Añadir</button>
+        </div>
+
+        <!-- Lista de amigos -->
+        <ul id="listaAmigos"></ul>
+
+        <!-- Resultado del sorteo -->
+        <ul id="resultado"></ul>
+
+        <div>
+            <button class="button-draw" onclick="sortearAmigo()">Sortear amigo</button>
+            <button class="button-reset" onclick="reiniciarLista()">Reiniciar lista</button>
+        </div>
+    </main>
+
+    <script>
+        // array donde se guardarán los nombres
+        let amigos = [];
+
+        // función para agregar un amigo desde input
+        function agregarAmigo() {
+            const input = document.getElementById("amigo");
+            const nombre = input.value.trim();
+
+            if (nombre === "") {
+                alert("Por favor, escribe un nombre válido.");
+                return;
+            }
+
+            // agregar el nombre al array
+            amigos.push(nombre);
+
+            // actualizar la lista en pantalla
+            mostrarAmigos();
+
+            // limpiar input
+            input.value = "";
+        }
+
+        // función para mostrar a los amigos en la lista
+        function mostrarAmigos() {
+            const lista = document.getElementById("listaAmigos");
+            lista.innerHTML = "";
+            
+            amigos.forEach((amigo) => {
+                const li = document.createElement("li");
+                li.textContent = amigo;
+                lista.appendChild(li);
+            });
+        }
+
+        // función para sortear un amigo secreto
+        function sortearAmigo() {
+            const resultado = document.getElementById("resultado");
+            resultado.innerHTML = "";
+
+            if (amigos.length < 2) {
+                alert("Agrega al menos dos nombres antes de sortear.");
+                return;
+            }
+
+            // elegir nombre al azar
+            const indiceAleatorio = Math.floor(Math.random() * amigos.length);
+            const amigoSorteado = amigos[indiceAleatorio];
+
+            // mostrar el resultado
+            const li = document.createElement("li");
+            li.textContent = `🎉 Tu amigo secreto es: ${amigoSorteado}`;
+            resultado.appendChild(li);
+        }
+
+        // función para reiniciar la lista
+        function reiniciarLista() {
+            amigos = []; // vaciar el array
+            document.getElementById("listaAmigos").innerHTML = "";
+            document.getElementById("resultado").innerHTML = "";
+        }
+    </script>
+</body>
+</html>
